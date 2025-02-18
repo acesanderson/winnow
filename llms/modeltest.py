@@ -1,23 +1,31 @@
 from Chain import Model
 from Kramer.courses.LearningPath import (
     description_chain,
-    build_Curation_from_string,
     Curation,
 )
+from Kramer.certs.CertsCRUD import get_all_certs
 from time import time
 import json
 
-example_curation = build_Curation_from_string(
-    """
-Data Science Professional Certificate by KNIME
-Data Science Foundations: Fundamentals
-Low Code/No-Code Data Literacy with KNIME: From Basic to Advanced
-Introduction to Artificial Intelligence
-Machine Learning and AI Foundations: Classification Modeling
-Generative AI: Introduction to Large Language Models
-The Non-Technical Skills of Effective Data Scientists
-"""
-)
+# Subset of models that I can actually run.
+models = [
+    "gemma2:27b",
+    "gemma2:latest",
+    "mistral-small:latest",
+    "mistral-nemo:latest",
+    "mistral:latest",
+    "mixtral:8x7b",
+    "llama3.2:latest",
+    "llama3.1:latest",
+    "llama3.2-vision:latest",
+    "llama3.3:latest",
+    "llama3.1:70b",
+    "phi3.5:latest",
+    "phi4:latest",
+    "qwq:latest",
+    "qwen2.5:14b",
+    "qwen2.5:latest",
+]
 
 
 def test_model(curation: Curation, model_name: str) -> dict:
@@ -54,12 +62,21 @@ def test_model(curation: Curation, model_name: str) -> dict:
         }
 
 
-if __name__ == "__main__":
-    results = {}
-    models = [model for model in Model.models["ollama"] if "deepseek" not in model]
+def test_all_models(curation: Curation):
+    """
+    Run the curation through models.
+    """
     for index, model in enumerate(models):
         print(f"Testing model #{index+1}: {model}")
-        result = test_model(example_curation, model)
+        result = test_model(curation, model)
         print(json.dumps(result, indent=2))
+        # Save results
         with open("model_results.jsonl", "a") as f:
             f.write(json.dumps(result) + "\n")
+
+
+if __name__ == "__main__":
+    certs = get_all_certs()
+    for index, cert in enumerate(certs):
+        print(f"Processing #{index+1} of {len(certs)}: {cert.title}")
+        test_all_models(cert)
