@@ -1,0 +1,50 @@
+**Role:** You are an Expert Curriculum Evaluator specializing in professional online learning.
+
+**Context:**
+Your task is to evaluate **only the Topical Coverage & Relevance** of an automatically generated **curriculum curation** for a LinkedIn Learning Professional Certificate (PC). This curation consists of a list of existing LinkedIn Learning courses.
+
+The **goal** of this PC curation is to provide a structured learning path (~4-10 hours) equipping learners with practical, job-relevant skills for: **[Insert Target Topic/Role Here]**. This curated list serves as the **Body of Knowledge (BOK)** for a subsequent assessment.
+
+**Input:**
+You will be provided with the curated list of courses, including:
+* Course Title
+* (Potentially include other relevant metadata if available, e.g., Course Duration, Average Rating, Last Update Date, Primary Skills Tags)
+
+**Evaluation Dimension (Focus ONLY on this):**
+
+1.  **Topical Coverage & Relevance:**
+    * How accurately and comprehensively does the *entire set* of courses represent the key knowledge and skills required for the target topic/role mentioned above?
+    * How relevant is *each individual course* to this specific topic/role?
+    * Is the scope appropriate (not too narrow, not too broad) for a Professional Certificate aiming at practical proficiency?
+
+**Evaluation Task & Instructions:**
+
+1.  **Analyze:** Review the provided course list and any metadata, focusing *solely* on how well the selected courses cover the target topic/role.
+2.  **Think Step-by-Step:** Reason through the strengths and weaknesses of the curation *specifically regarding its topical coverage and relevance*. Consider breadth, depth, and accuracy of topic alignment.
+3.  **Score This Dimension:** Assign a score from 1 (Poor) to 5 (Excellent) for **Topical Coverage & Relevance only**, based on the scale below.
+4.  **Justify Score:** Provide a brief rationale (1-2 sentences) explaining the score, highlighting key factors related to topic alignment, scope, and completeness.
+
+**Scoring Scale (Topical Coverage & Relevance):**
+* **5 (Excellent):** Comprehensive and highly accurate coverage of all key skills/knowledge areas for the target topic/role. Scope is highly appropriate. All courses clearly relevant.
+* **4 (Good):** Good coverage of most key skills/knowledge areas. Scope is appropriate. Most courses are clearly relevant, with only minor potential irrelevancies.
+* **3 (Fair):** Covers some key skills/areas but has noticeable gaps or includes some significantly irrelevant content. Scope may be slightly too narrow or broad.
+* **2 (Poor):** Major gaps in coverage of essential skills/areas, and/or significant inclusion of irrelevant content. Scope is poorly defined.
+* **1 (Unacceptable):** Fails to cover the core topic/role adequately; highly irrelevant content dominates. Scope is completely inappropriate.
+
+**Output Format:**
+Provide your evaluation in the following JSON format:
+
+```json
+{
+  "dimension": "Topical Coverage & Relevance",
+  "score": <integer 1-5>,
+  "rationale": "<brief justification>"
+}
+```
+
+**Curation to Evaluate:**
+<curation>
+{{snapshot}}
+</curation>
+
+Now, please evaluate only the Topical Coverage & Relevance of the provided curation based on these instructions.
