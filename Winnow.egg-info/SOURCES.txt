@@ -1,0 +1,5 @@
+setup.py
+Winnow.egg-info/PKG-INFO
+Winnow.egg-info/SOURCES.txt
+Winnow.egg-info/dependency_links.txt
+Winnow.egg-info/top_level.txt

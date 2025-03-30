@@ -30,7 +30,11 @@ def evaluate_curation(
         parser = Parser(CurationRubric)  # type: ignore
         chain = Chain(prompt=dimension_prompt, model=model, parser=parser)
         response = chain.run(  # type: ignore
-            input_variables={"snapshot": curation.snapshot},
+            input_variables={
+                "curation_title": curation.title,
+                "duration": curation.duration,
+                "snapshot": curation.TOCs,
+            },
             cache=False,
             verbose=verbose,
         )
@@ -49,7 +53,7 @@ def evaluate_curation(
 
 
 def evaluate_curation_async(
-    curation: Curation, preferred_model: str = "claude", verbose=True
+    curation: Curation, preferred_model: str = "o3-mini", verbose=True
 ) -> tuple[list[CurationRubric], float]:
     """
     Evaluation function for curation.
@@ -60,7 +64,13 @@ def evaluate_curation_async(
     ]
     # Render the prompts with the input variables
     prompt_strings = [
-        prompt.render(input_variables={"snapshot": curation.snapshot})
+        prompt.render(
+            input_variables={
+                "curation_title": curation.title,
+                "duration": curation.duration,
+                "snapshot": curation.TOCs,
+            }
+        )
         for prompt in dimension_prompts
     ]
     # Run our list of prompt strings through async
