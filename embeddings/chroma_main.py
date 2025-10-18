@@ -33,8 +33,8 @@ import chromadb
 import json
 import pickle
 from chromadb.utils import embedding_functions
-from Kramer.database.MongoDB_CRUD import get_all_courses_sync
-from Kramer.database.MongoDB_course_mapping import get_course_title
+from kramer.database.MongoDB_CRUD import get_all_courses_sync
+from kramer.database.MongoDB_course_mapping import get_course_title
 
 client = chromadb.HttpClient(host="localhost", port=8001)
 
@@ -235,7 +235,7 @@ if __name__ == "__main__":
             results = test_model(model_name=model, test_data=test_data, queries=queries)
             for result in results:
                 result.update({"model": model})
-                print(f"{result["query"]}")
+                print(f"{result['query']}")
                 for match in result["match"]:
                     try:
                         print(f"\t{get_course_title(int(match))}")
