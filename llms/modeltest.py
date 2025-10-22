@@ -1,9 +1,9 @@
-from Chain import Model
-from Kramer.courses.LearningPath import (
-    description_chain,
+from conduit.sync import Model
+from kramer.courses.LearningPath import (
+    description_conduit,
     Curation,
 )
-from Kramer.certs.CertsCRUD import get_all_certs
+from kramer.database.MongoDB_certs import get_all_certs
 from time import time
 import json
 
@@ -30,7 +30,7 @@ models = [
 
 def test_model(curation: Curation, model_name: str) -> dict:
     """
-    Run the example chain for a model and return a dict.
+    Run the example conduit for a model and return a dict.
     model_name: name of the model
     status: SUCCESS, FAIL
     output: the output of the model
@@ -39,11 +39,11 @@ def test_model(curation: Curation, model_name: str) -> dict:
     """
     try:
         start = time()
-        output = description_chain(curation, preferred_model=model_name)
+        output = description_conduit(curation, preferred_model=model_name)
         cold_boot = time() - start
 
         start = time()
-        output = description_chain(curation, preferred_model=model_name)
+        output = description_conduit(curation, preferred_model=model_name)
         warm_boot = time() - start
         return {
             "model_name": model_name,
@@ -67,7 +67,7 @@ def test_all_models(curation: Curation):
     Run the curation through models.
     """
     for index, model in enumerate(models):
-        print(f"Testing model #{index+1}: {model}")
+        print(f"Testing model #{index + 1}: {model}")
         result = test_model(curation, model)
         print(json.dumps(result, indent=2))
         # Save results
@@ -78,5 +78,5 @@ def test_all_models(curation: Curation):
 if __name__ == "__main__":
     certs = get_all_certs()
     for index, cert in enumerate(certs):
-        print(f"Processing #{index+1} of {len(certs)}: {cert.title}")
+        print(f"Processing #{index + 1} of {len(certs)}: {cert.title}")
         test_all_models(cert)

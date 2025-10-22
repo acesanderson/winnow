@@ -1,5 +1,8 @@
-from Kramer import get_all_certs, Curation
-from Chain import Chain, Model, Prompt, Parser, ModelAsync, AsyncChain
+from kramer.courses.Curation import Curation
+from kramer.database.MongoDB_certs import get_all_certs
+from conduit.sync import Conduit, Model, Prompt
+from conduit.parser.parser import Parser
+from conduit.batch import ModelAsync, AsyncConduit
 from pathlib import Path
 from pydantic import BaseModel, Field
 
@@ -28,8 +31,8 @@ def evaluate_curation(
     for index, dimension_prompt in enumerate(dimension_prompts):
         model = Model(preferred_model)
         parser = Parser(CurationRubric)  # type: ignore
-        chain = Chain(prompt=dimension_prompt, model=model, parser=parser)
-        response = chain.run(  # type: ignore
+        conduit = Conduit(prompt=dimension_prompt, model=model, parser=parser)
+        response = conduit.run(  # type: ignore
             input_variables={
                 "curation_title": curation.title,
                 "duration": curation.duration,
@@ -76,8 +79,8 @@ def evaluate_curation_async(
     # Run our list of prompt strings through async
     model = ModelAsync(preferred_model)
     parser = Parser(CurationRubric)  # type: ignore
-    chain = AsyncChain(model=model, parser=parser)
-    responses = chain.run(
+    conduit = AsyncConduit(model=model, parser=parser)
+    responses = conduit.run(
         prompt_strings=prompt_strings, verbose=verbose, cache=False
     )  # Type: ignore
     # Process the curation_rubrics

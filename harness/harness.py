@@ -6,16 +6,15 @@ Harness: a class to run trials and evaluate them with a single evaluation module
 Orchestrator: a class to run multiple trials with multiple evaluation modules
 """
 
-from Mentor import Mentor
-from Kramer import get_all_certs
-from Chain import Chain, MessageStore
+from mentor.mentor.main import Mentor
+from conduit.sync import Conduit
+from conduit.message.messagestore import MessageStore
 from rich.console import Console
 from typing import Callable, Optional
 from inspect import signature
-from typing import Type
 from pydantic import create_model
 
-Chain._message_store = MessageStore()
+Conduit.message_store = MessageStore()
 console = Console()
 
 
