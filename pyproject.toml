@@ -13,13 +13,7 @@ dependencies = [
     "conduit",
     "rerankers>=0.10.0",
     "sentence-transformers>=5.1.1",
-    "torch",
 ]
-
-[[tool.uv.index]]
-name = "pytorch-cu128"
-url = "https://download.pytorch.org/whl/cu128"
-explicit = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/winnow"]
@@ -28,6 +22,18 @@ sources = ["src"]
 [tool.hatch.build.targets.sdist]
 include = ["src/winnow/py.typed"]
 
+# -- Torch Dependency Management -----------------------------------------------
+[project.optional-dependencies]
+ml-server = ["torch==2.9.0+cu128"]  # Only for your ML server
+default = ["torch==2.9.0"]           # Everything else
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+# ── uv sources (local/editable deps) ───────────────────────────────────────────
+# Also include torch from the custom index above
 [tool.uv.sources]
 torch = { index = "pytorch-cu128" }
 kramer = { path = "../kramer-project", editable = true }
