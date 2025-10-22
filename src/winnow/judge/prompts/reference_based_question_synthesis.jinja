@@ -1,0 +1,50 @@
+{#
+    Template for reference-based question synthesis as described in the Themis LLM-as-a-Judge paper
+    
+    Variables:
+    - scenario_name: The name of the specific scenario for which questions are being generated 
+      (e.g., "Close QA", "Open QA", "Creative writing", etc.)
+    - scenario_description: Brief description explaining what the scenario entails
+    - reference_text: The text material that serves as the basis for generating questions
+    - examples: List of example questions relevant to the scenario (at least 3 examples)
+    
+    This template implements the reference-based questioning approach from the paper,
+    which leverages LLMs' generative ability to synthesize user instructions for specific scenarios
+    based on reference texts. The structured output format ensures consistent question generation
+    with appropriate difficulty levels.
+#}
+
+Requirements for the scenario:
+<scenario>
+<name>{scenario_name}</name>
+<definition>{scenario_description}</definition>
+</scenario>
+
+<reference_text>
+{reference_text}
+</reference_text>
+
+<requirements>
+1. The generated questions and answers should be based on the article content and should meet the scenario requirements.
+2. Questions should be detailed, containing necessary information to encourage thorough answers.
+3. If the information in the reference text is insufficient to generate question-answer pairs, return the following: "Sorry, this article does not contain enough information related to {scenario_name} to generate relevant questions and answers."
+4. The generated question-answer pairs need to simulate questions and answers people might consult the LLM about in real-life scenarios.
+5. Ensure the completeness and answerability of the questions independently; include the original content if necessary.
+6. Ensure the correctness of the answers.
+</requirements>
+
+<sample_questions>
+<example_1>{examples[0]}</example_1>
+<example_2>{examples[1]}</example_2>
+<example_3>{examples[2]}</example_3>
+</sample_questions>
+
+Please generate 5 sets of question-answer pairs that meet the requirements:
+
+<qa_pairs>
+<qa_pair>
+<question>[The generated question based on article content]</question>
+<answer>[The answer to the question, if possible, based on article content; otherwise, based on model's own knowledge]</answer>
+<level>[The difficulty level of the question: easy/medium/difficult]</level>
+</qa_pair>
+</qa_pairs>

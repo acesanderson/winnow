@@ -1,0 +1,53 @@
+{# 
+    Template for single answer grading.
+    
+    Variables:
+    - scenario_name: The name of the specific scenario being evaluated (e.g., "Close QA", "Open QA", "Math-related QA", etc.)
+    - scenario_description: Brief description explaining what the scenario entails
+    - criteria: The judge criteria specific to the scenario, should contain numbered evaluation points in order of importance
+    - instruction: The original user instruction/query being evaluated
+    - response: The AI assistant's response that needs to be evaluated
+    
+    This template implements the scenario-dependent evaluation prompts approach from the paper,
+    encouraging step-by-step evaluation with explicit criteria and structured output format.
+    The five-tier grading system aligns with the paper's methodology for quantitative assessment.
+#}
+
+Your task is to evaluate the quality of AI responses. You are well aware that when a user issues an instruction of {scenario name} (the definition is: {scenario description}), an AI assistant’s response should meet the following criteria (listed in descending order of importance):
+
+<criteria>
+{criteria}
+</criteria>
+
+The grading uses a five-tier system (1–5), the meanings of each tier are:
+
+<grading_tiers>
+1 The response has significant flaws, totally deviates from the criteria, and should not be seen in practice.
+2 The response has parts that meet the criteria and can be adopted, but as a whole, the quality is not sufficient.
+3 The response has a mix of strengths and weaknesses, with strengths overall outweighing the weaknesses within the evaluation criteria.
+4 The response is of acceptable quality, overall meets the criteria, and has few minor issues that can be improved. When a reference answer is given, this tier represents the quality shown by the reference answer.
+5 The response is excellent, strictly meets the criteria in all aspects. When a ref answer is given, this tier represents a quality superior to the answer.
+</grading_tiers>
+
+Regarding a user instruction of {scenario name} , we have collected the following AI assistant response. Please evaluate this response against the known criteria for the current scenario and provide your assessment. Below are the user instruction and the assistant’s response data:
+
+<data>
+<user_instruction>
+{instruction}
+</user_instruction>
+<response>
+{response}
+</response>
+</data>
+
+You need to follow these steps to evaluate the above response:
+1. Recall the relevant AI assistant response criteria and carefully read and understand the response to be evaluated.
+2. Identify from all criteria the key ones for the current user instruction and response, including those that performed well and those that did not.
+3. Besides the given criteria, add any other important criteria that you think are necessary for evaluating the current user instruction response.
+4. Based on your final selection of criteria, assign scores (1–5) to each criterion, and provide an overall score by weighting all sub-scores.
+Think carefully and then provide your conclusion. Your response should keep the ‘[[’ and ‘]]’ symbols in the output:
+I believe the overall rating of this response is [[a score between 1–5]], and the reasons are as follows.
+Strengths of the current response:
+(List each point that you think is well done in the current response, providing [[a score between 1–5]] for each point…)
+Shortcomings of the current response:
+(List each point that you think is lacking in the current response, providing [[a score between 1–5]] for each point…)
